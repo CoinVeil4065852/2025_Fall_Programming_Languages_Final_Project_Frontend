@@ -9,7 +9,7 @@ type ThemeCtx = {
 
 const ThemeContext = createContext<ThemeCtx | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [choice, setChoice] = useState<ThemeChoice>(() => {
     try {
       const s = localStorage.getItem('theme_choice') as ThemeChoice | null;
@@ -29,7 +29,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
-export function useThemeChoice() {
+export const useThemeChoice = () => {
   const ctx = useContext(ThemeContext);
   if (!ctx) throw new Error('useThemeChoice must be used inside ThemeProvider');
   return ctx;

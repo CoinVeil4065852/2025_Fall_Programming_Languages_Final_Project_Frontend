@@ -7,7 +7,7 @@ import { useForm } from '@mantine/form';
 
 type LoginResult = { token?: string; user?: any };
 
-export default function LoginForm() {
+const LoginForm = () => {
   const { t } = useTranslation();
   const form = useForm({
     mode: 'uncontrolled',
@@ -107,5 +107,7 @@ export default function LoginForm() {
     </Box>
   );
 }
+
+export default LoginForm;
 
 

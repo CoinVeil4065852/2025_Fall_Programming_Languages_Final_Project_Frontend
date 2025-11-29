@@ -7,7 +7,7 @@ import { useForm } from '@mantine/form';
 
 type LoginResult = { token?: string; user?: any };
 
-export default function RegisterForm() {
+const RegisterForm = () => {
     type RegisterValues = {
         username: string;
         password: string;
@@ -209,5 +209,7 @@ export default function RegisterForm() {
         </Box>
     );
 }
+
+export default RegisterForm;
 
 

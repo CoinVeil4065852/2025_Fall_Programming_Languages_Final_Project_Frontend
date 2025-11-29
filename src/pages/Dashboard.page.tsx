@@ -1,6 +1,8 @@
 import DashboardLayout from "@/components/DashboardLayout/DashboardLayout";
 
 
-export default function DashboardPage() {
+const DashboardPage = () => {
     return (<DashboardLayout/>);
 }
+
+export default DashboardPage;

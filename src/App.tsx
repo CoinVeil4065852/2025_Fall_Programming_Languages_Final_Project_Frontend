@@ -5,7 +5,7 @@ import { Router } from './Router';
 import { theme } from './theme';
 import { ThemeProvider, useThemeChoice } from './contexts/ThemeContext';
 
-function AppInner() {
+const AppInner = () => {
   const { choice } = useThemeChoice();
 
   const forcedColorScheme: 'light' | 'dark' | undefined = choice === 'system' ? undefined : choice;
@@ -24,10 +24,12 @@ function AppInner() {
   );
 }
 
-export default function App() {
+const App = () => {
   return (
     <ThemeProvider>
       <AppInner />
     </ThemeProvider>
   );
 }
+
+export default App;

@@ -20,9 +20,9 @@ const data = [
     { icon: <IconCategory />, labelId: 'custom_category', descriptionid: 'custom_category_description', to: '/dashboard/custom' },
 ];
 
-export default function DashboardLayout() {
+const DashboardLayout = () => {
     const { t, i18n } = useTranslation();
-    const [mobileOpened, { toggle: toggleMobile }] = useDisclosure(false);
+    const [opened, { toggle, close }] = useDisclosure(false);
     const navigate = useNavigate();
 
     const [username, setUsername] = useState<string | null>(null);
@@ -54,13 +54,13 @@ export default function DashboardLayout() {
             navbar={{
                 width: 300,
                 breakpoint: 'sm',
-                collapsed: { mobile: !mobileOpened },
+                collapsed: { mobile: !opened },
             }}
         >
             <AppShell.Header p="xs">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
+                        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
                         <div style={{ fontWeight: 700 }}>{t('dashboard')}</div>
                     </div>
 
@@ -114,6 +114,7 @@ export default function DashboardLayout() {
                     {data.map((item) => (
                         <MantineNavLink
                             mb="sm" key={item.labelId} to={item.to}
+                            onClick={close}
                             component={RouterNavLink}
                             label={t(item.labelId)}
                             description={t(item.descriptionid)}
@@ -153,3 +154,5 @@ export default function DashboardLayout() {
         </AppShell>
     );
 }
+
+export default DashboardLayout;
