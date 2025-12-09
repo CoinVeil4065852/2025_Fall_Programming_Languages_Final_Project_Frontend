@@ -8,12 +8,12 @@ type Props = Omit<InfoCardProps, 'children' | 'title'> & {
   labels?: string[];
 };
 
-const WaterWeeklyCard: React.FC<Props> = ({ data, labels, ...infoCardProps }) => {
+const SleepWeeklyCard: React.FC<Props> = ({ data, labels, ...infoCardProps }) => {
   const { t } = useTranslation();
 
   return (
-    <BarChartCard title={t('weekly_water')} data={data} labels={labels} unitLabel={t('milliliters')} {...infoCardProps} />
+    <BarChartCard title={t('weekly_sleep')} data={data} labels={labels} unitLabel={t('hours')} {...infoCardProps} />
   );
 };
 
-export default WaterWeeklyCard;
+export default SleepWeeklyCard;

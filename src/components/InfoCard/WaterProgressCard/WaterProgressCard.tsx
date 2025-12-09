@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button, Group, Stack, Text, Title } from '@mantine/core';
 import InfoCard, { InfoCardProps } from '../InfoCard';
+import { useTranslation } from 'react-i18next';
 
 const WaterTankSvg = ({
   percentage,
@@ -94,12 +95,14 @@ type Props = Omit<InfoCardProps, 'children' | 'title'> & {
   currentMl?: number; // water already drank in milliliters
   goalMl?: number; // objective in milliliters
   onAddClick?: () => void;
+  onAdd250Click?: () => void;
 };
 
 const WaterProgressCard: React.FC<Props> = ({
   currentMl = 750,
   goalMl = 2000,
   onAddClick,
+  onAdd250Click,
   ...infoCardProps
 }) => {
   const safeGoal = Math.max(1, goalMl);
@@ -107,22 +110,24 @@ const WaterProgressCard: React.FC<Props> = ({
   const displayPercent = Math.round(percent);
   const remainingMl = Math.max(0, goalMl - currentMl);
 
+  const { t } = useTranslation();
+
   return (
-    <InfoCard title="Today" {...infoCardProps}>
+    <InfoCard title={t('today')} {...infoCardProps}>
       <Group gap="xl" justify="center" align="center">
         <Stack>
           <Title order={4}>
-            {currentMl} ml / {goalMl} ml
+            {currentMl} {t('ml')} / {goalMl} {t('ml')}
           </Title>
           <Text size="md" c="dimmed">
-            {remainingMl} ml remaining
+            {remainingMl} {t('ml_remaining')}
           </Text>
-          <Button variant="light" size="md">
-            Add 250 ml
+          <Button variant="light" size="md" onClick={onAdd250Click}>
+            {t('add_250_ml')}
           </Button>
 
           <Button variant="light" size="md" onClick={onAddClick}>
-            Add Water
+            {t('add_water')}
           </Button>
         </Stack>
         <Box>

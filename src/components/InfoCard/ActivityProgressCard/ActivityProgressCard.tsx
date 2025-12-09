@@ -1,4 +1,5 @@
 import { IconClock, IconFlame, IconShoe, IconWalk } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Card, Center, Group, RingProgress, Stack, Text, ThemeIcon } from '@mantine/core';
 import InfoCard from '../InfoCard';
 
@@ -50,6 +51,7 @@ const ActivityGauge = ({
 
   // Gradient ID
   const gradId = 'activity-gradient';
+  const { t } = useTranslation();
 
   return (
     <Group>
@@ -94,7 +96,7 @@ const ActivityGauge = ({
       >
         {icon}
         <Text size="xl">{value}</Text>
-        <Text size="xs">Kcal</Text>
+        <Text size="xs">{t('kcal')}</Text>
       </Stack>
     </Group>
   );
@@ -113,8 +115,9 @@ const DailyActivityCard: React.FC<Props> = ({
   steps = 5432,
   durationMinutes = 45,
 }) => {
+  const { t } = useTranslation();
   return (
-    <InfoCard title="Daily Activity">
+    <InfoCard title={t('daily_activity')}>
       <Stack justify="center" align="center" gap={6}>
         <ActivityGauge
           value={calories}
@@ -131,7 +134,7 @@ const DailyActivityCard: React.FC<Props> = ({
               {steps}
             </Text>
             <Text size="xs" c="dimmed">
-              Steps
+              {t('steps')}
             </Text>
           </Group>
           <Group>
@@ -142,13 +145,13 @@ const DailyActivityCard: React.FC<Props> = ({
               {durationMinutes}m
             </Text>
             <Text size="xs" c="dimmed">
-              Duration
+              {t('duration')}
             </Text>
           </Group>
         </Group>
 
         <Text size="xs" c="dimmed" className="mt-2 text-center">
-          You hit <strong>{Math.round((calories / caloriesGoal) * 100)}%</strong> of your goal!
+          {t('you_hit_percent_of_goal', { percent: Math.round((calories / caloriesGoal) * 100) })}
         </Text>
       </Stack>
     </InfoCard>

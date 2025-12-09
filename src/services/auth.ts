@@ -1,10 +1,9 @@
-import * as mockApi from './mockApi';
+import api from './index';
 
 type Credentials = { username: string; password: string };
 
 export async function login(creds: Credentials) {
-  // For UI testing use the mock API. To simulate success use password 'password'.
-  return mockApi.login(creds);
+  return api.login(creds);
 }
 
 export async function register(data: {
@@ -15,9 +14,9 @@ export async function register(data: {
   height?: number;
   gender?: string;
 }) {
-  return mockApi.register(data);
+  return api.register(data);
 }
 
 export async function getProfile(token: string) {
-  return mockApi.getProfile(token);
+  return api.getProfile(token);
 }

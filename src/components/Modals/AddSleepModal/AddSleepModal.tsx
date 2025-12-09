@@ -1,17 +1,17 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { NumberInput, Stack, TextInput } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import BaseAddRecordModal from '../BaseAddRecordModal/BaseAddRecordModal';
 
 type Values = {
-  amount: number | '';
-  time: string; // use datetime-local string
+  hours: number | '';
+  time: string;
 };
 
 type Props = {
   opened: boolean;
   onClose: () => void;
-  onAdd: (values: { amount: number; time: string }) => Promise<void> | void;
+  onAdd: (values: { hours: number; time: string }) => Promise<void> | void;
   initialValues?: Values;
   submitLabel?: string;
 };
@@ -26,9 +26,9 @@ function toLocalDatetimeInput(date = new Date()) {
   return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
 }
 
-const AddWaterModal: React.FC<Props> = ({ opened, onClose, onAdd, initialValues, submitLabel }) => {
+const AddSleepModal: React.FC<Props> = ({ opened, onClose, onAdd, initialValues, submitLabel }) => {
   const defaults: Values = {
-    amount: 250,
+    hours: 7.5,
     time: toLocalDatetimeInput(new Date()),
   };
 
@@ -38,18 +38,17 @@ const AddWaterModal: React.FC<Props> = ({ opened, onClose, onAdd, initialValues,
     <BaseAddRecordModal<Values>
       opened={opened}
       onClose={onClose}
-      title={initialValues ? t('edit_water') : t('add_water')}
+      title={initialValues ? t('edit_sleep') : t('add_sleep')}
       initialValues={initialValues ?? defaults}
       onSubmit={async (values) => {
-        const amt = typeof values.amount === 'number' ? values.amount : Number(values.amount);
-        await onAdd({ amount: amt, time: values.time });
+        const hrs = typeof values.hours === 'number' ? values.hours : Number(values.hours);
+        await onAdd({ hours: hrs, time: values.time });
       }}
       submitLabel={submitLabel ?? (initialValues ? t('save') : t('add'))}
     >
       {(form) => (
         <Stack>
-          <NumberInput label={t('amount_ml')} min={0} {...form.getInputProps('amount')} />
-
+          <NumberInput label={t('hours')} min={0} step={0.1} {...form.getInputProps('hours')} />
           <TextInput label={t('time')} type="datetime-local" {...form.getInputProps('time')} />
         </Stack>
       )}
@@ -57,4 +56,4 @@ const AddWaterModal: React.FC<Props> = ({ opened, onClose, onAdd, initialValues,
   );
 };
 
-export default AddWaterModal;
+export default AddSleepModal;

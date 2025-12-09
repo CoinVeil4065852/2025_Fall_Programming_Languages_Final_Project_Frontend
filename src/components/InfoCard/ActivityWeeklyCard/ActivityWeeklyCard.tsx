@@ -1,5 +1,6 @@
 import React from 'react';
 import BarChartCard from '../BarChartCard/BarChartCard';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   data?: number[]; // 7 numbers, one per day (minutes)
@@ -7,8 +8,10 @@ type Props = {
 };
 
 const ActivityWeeklyCard: React.FC<Props> = ({ data, labels }) => {
+  const { t } = useTranslation();
+
   return (
-    <BarChartCard title="Weekly activity" data={data} labels={labels} unitLabel="minutes" />
+    <BarChartCard title={t('weekly_activity')} data={data} labels={labels} unitLabel={t('minutes')} />
   );
 };
 
