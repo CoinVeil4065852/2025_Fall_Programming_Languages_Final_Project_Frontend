@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Grid, Group, Select, Stack, Text, TextInput } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import { useAppData } from '@/AppDataContext';
 import AddCustomItemModal from '@/components/Modals/AddCustomItemModal/AddCustomItemModal';
 import { CustomItem, Category } from '@/services/types';
@@ -16,6 +17,7 @@ const CustomCategoryPage = () => {
   const [editItem, setEditItem] = useState<CustomItem | null>(null);
   const [newCategory, setNewCategory] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [deleteLoadingId, setDeleteLoadingId] = useState<string | null>(null);
 
   const { t } = useTranslation();
   const {
@@ -54,9 +56,11 @@ const CustomCategoryPage = () => {
       if (!createCustomCategory) throw new Error(t('endpoint_not_implemented'));
       await createCustomCategory(newCategory);
       setNewCategory('');
+      showNotification({ title: t('create'), message: `${newCategory} created`, color: 'green' });
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       setError(msg ?? t('failed_create_category'));
+      showNotification({ title: t('failed_create_category'), message: msg, color: 'red' });
       setNewCategory('');
     }
   };
@@ -97,6 +101,7 @@ const CustomCategoryPage = () => {
         style={{ width: '100%' }}
             title={selectedCategory ? `${categories.find((c) => c.id === selectedCategory)?.categoryName ?? ''} ${t('records')}` : t('select_a_category')}
         records={uiRecords}
+        deleteLoadingId={deleteLoadingId}
           onEdit={(r) => {
           setEditItem(
             customData[selectedCategory ?? ''].find(
@@ -108,14 +113,20 @@ const CustomCategoryPage = () => {
             onDelete={async (r) => {
           try {
             setError(null);
-            if (selectedCategory && deleteCustomItem) {
-                  await deleteCustomItem(selectedCategory, r.id);
-                  await refreshCustomData?.(selectedCategory);
-            }
+                setDeleteLoadingId(r.id);
+                if (selectedCategory && deleteCustomItem) {
+                      await deleteCustomItem(selectedCategory, r.id);
+                      await refreshCustomData?.(selectedCategory);
+                      showNotification({ title: t('delete'), message: 'Deleted', color: 'green' });
+                }
           } catch (err) {
             const msg = err instanceof Error ? err.message : String(err);
             setError(msg ?? t('failed_delete_custom_item'));
+                showNotification({ title: t('failed_delete_custom_item'), message: msg, color: 'red' });
           }
+              finally {
+                setDeleteLoadingId(null);
+              }
         }}
         onAddClick={
           selectedCategory
@@ -141,16 +152,19 @@ const CustomCategoryPage = () => {
               if (updateCustomItem) {
                   await updateCustomItem(selectedCategory, editItem.id, datetime, note);
                   await refreshCustomData?.(selectedCategory);
+                  showNotification({ title: t('edit_item'), message: t('edit_item') + ' saved', color: 'green' });
               }
             } else {
               if (addCustomItem) {
                   await addCustomItem(selectedCategory, datetime, note);
                   await refreshCustomData?.(selectedCategory);
+                  showNotification({ title: t('add_item'), message: t('add_item') + ' created', color: 'green' });
               }
             }
           } catch (err) {
             const msg = err instanceof Error ? err.message : String(err);
             if (editItem) setError(msg ?? t('failed_update_custom_item'));
+            showNotification({ title: t(editItem ? 'failed_update_custom_item' : 'failed_add_custom_item'), message: msg, color: 'red' });
           } finally {
             setAddOpen(false);
             setEditItem(null);

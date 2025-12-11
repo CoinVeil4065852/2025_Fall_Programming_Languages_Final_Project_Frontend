@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { showNotification } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
 import { Group, Text } from '@mantine/core';
 import { useAppData } from '@/AppDataContext';
@@ -13,6 +14,7 @@ type UiSleepRecord = { id: string; date: string; time?: string; hours: number };
 
 const SleepPage = () => {
   const [error, setError] = useState<string | null>(null);
+  const [deleteLoadingId, setDeleteLoadingId] = useState<string | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [editItem, setEditItem] = useState<UiSleepRecord | null>(null);
 
@@ -53,10 +55,16 @@ const SleepPage = () => {
         onDelete={async (r) => {
           try {
             setError(null);
+            setDeleteLoadingId(r.id);
             if (deleteSleep) await deleteSleep(r.id);
+            showNotification({ title: t('delete'), message: `${t('sleep_records')} deleted`, color: 'green' });
           } catch (err) {
             const msg = err instanceof Error ? err.message : String(err);
             setError(msg ?? t('failed_delete_sleep'));
+            showNotification({ title: t('failed_delete_sleep'), message: msg, color: 'red' });
+          }
+          finally {
+            setDeleteLoadingId(null);
           }
         }}
         style={{ width: '100%' }}
@@ -64,6 +72,7 @@ const SleepPage = () => {
           setEditItem(null);
           setAddOpen(true);
         }}
+        deleteLoadingId={deleteLoadingId}
       />
       <AddSleepModal
         opened={addOpen}
@@ -83,14 +92,18 @@ const SleepPage = () => {
         }
         onAdd={async ({ hours, time }) => {
           try {
+            setError(null);
             if (editItem) {
               if (updateSleep) await updateSleep(editItem.id, time, Number(hours));
+              showNotification({ title: t('edit_sleep'), message: `${t('sleep_records')} updated`, color: 'green' });
             } else {
               if (addSleep) await addSleep(time, Number(hours));
+              showNotification({ title: t('add_sleep'), message: `${t('sleep_records')} added`, color: 'green' });
             }
           } catch (e) {
             const msg = e instanceof Error ? e.message : String(e);
             setError(msg ?? (editItem ? t('failed_update_sleep') : t('failed_add_sleep')));
+            showNotification({ title: t(editItem ? 'failed_update_sleep' : 'failed_add_sleep'), message: msg, color: 'red' });
           } finally {
             setAddOpen(false);
             setEditItem(null);

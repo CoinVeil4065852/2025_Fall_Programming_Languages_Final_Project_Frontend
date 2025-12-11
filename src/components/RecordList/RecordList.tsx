@@ -1,4 +1,4 @@
-import { Button, Group, ScrollArea, Stack, Table, Text } from '@mantine/core';
+import { Button, Group, Stack, Table, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import InfoCard, { InfoCardProps } from '../InfoCard/InfoCard';
 
@@ -11,9 +11,10 @@ type RecordListProps = Omit<InfoCardProps, 'children'> & {
   onEdit?: (r: RecordItem) => void;
   onDelete?: (r: RecordItem) => void;
   onAddClick?: () => void;
+  deleteLoadingId?: string | null;
 };
 
-const RecordList = ({ title, records, onEdit, onDelete, onAddClick, ...infoCardProps }: RecordListProps) => {
+  const RecordList = ({ title, records, onEdit, onDelete, onAddClick, deleteLoadingId, ...infoCardProps }: RecordListProps) => {
   const keys: string[] = records[0] ? Object.keys(records[0]).filter((k) => k !== 'id') : [];
   const { t } = useTranslation();
 
@@ -75,9 +76,15 @@ const RecordList = ({ title, records, onEdit, onDelete, onAddClick, ...infoCardP
                         </Button>
                       ) : null}
                       {onDelete ? (
-                        <Button size="xs" color="red" onClick={() => onDelete(r)}>
-                          {t('delete')}
-                        </Button>
+                          <Button
+                            size="xs"
+                            color="red"
+                            onClick={() => onDelete(r)}
+                            loading={deleteLoadingId === r.id}
+                            disabled={deleteLoadingId === r.id}
+                          >
+                            {t('delete')}
+                          </Button>
                       ) : null}
                     </Group>
                   </Table.Td>

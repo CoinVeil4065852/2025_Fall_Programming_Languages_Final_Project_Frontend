@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { showNotification } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
 import { Group, Text } from '@mantine/core';
 import { useAppData } from '@/AppDataContext';
@@ -20,6 +21,8 @@ const WaterPage = () => {
   const [addOpen, setAddOpen] = useState(false);
   const [editItem, setEditItem] = useState<UiWaterRecord | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [deleteLoadingId, setDeleteLoadingId] = useState<string | null>(null);
+  const [isAdding250, setIsAdding250] = useState(false);
 
   const uiRecords: UiWaterRecord[] = (water || []).map((rr: WaterRecord) => ({
     id: String(rr.id ?? ''),
@@ -33,6 +36,7 @@ const WaterPage = () => {
   const onAdd250Click = async () => {
     try {
       setError(null);
+      setIsAdding250(true);
       const now = new Date();
       const pad = (n: number) => n.toString().padStart(2, '0');
       const yyyy = now.getFullYear();
@@ -42,9 +46,12 @@ const WaterPage = () => {
       const min = pad(now.getMinutes());
       const datetime = `${yyyy}-${mm}-${dd}T${hh}:${min}`;
       if (addWater) await addWater(datetime, 250);
+      showNotification({ title: t('add_250_ml'), message: `${t('add_250_ml')} success`, color: 'green' });
         } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       setError(msg ?? t('failed_add_250ml'));
+    } finally {
+      setIsAdding250(false);
     }
   };
 
@@ -55,6 +62,7 @@ const WaterPage = () => {
         goalMl={2000}
         onAddClick={() => setAddOpen(true)}
         onAdd250Click={onAdd250Click}
+        add250Loading={isAdding250}
       />
       {error && (
         <Text c="red" size="sm">
@@ -66,6 +74,7 @@ const WaterPage = () => {
       <RecordList
         title={t('water_records')}
         records={uiRecords}
+        deleteLoadingId={deleteLoadingId}
         onEdit={(r) => {
           const rec = r as UiWaterRecord;
           setEditItem({ id: rec.id, date: rec.date, time: rec.time, amountMl: rec.amountMl });
@@ -74,10 +83,16 @@ const WaterPage = () => {
         onDelete={async (r) => {
           try {
             setError(null);
+            setDeleteLoadingId(r.id);
             if (deleteWater) await deleteWater(r.id);
+            showNotification({ title: t('delete'), message: `${t('water_records')} deleted`, color: 'green' });
           } catch (err) {
             const msg = err instanceof Error ? err.message : String(err);
             setError(msg ?? t('failed_delete_record'));
+            showNotification({ title: t('failed_delete_record'), message: msg, color: 'red' });
+          }
+          finally {
+            setDeleteLoadingId(null);
           }
         }}
         style={{ width: '100%' }}
@@ -108,12 +123,15 @@ const WaterPage = () => {
             setError(null);
             if (editItem) {
               if (updateWater) await updateWater(editItem.id, time, amount);
+              showNotification({ title: t('edit_water'), message: `${t('water_records')} updated`, color: 'green' });
             } else {
               if (addWater) await addWater(time, amount);
+              showNotification({ title: t('add_water'), message: `${t('water_records')} added`, color: 'green' });
             }
           } catch (e) {
             const msg = e instanceof Error ? e.message : String(e);
             setError(msg ?? t('failed_save_record'));
+            showNotification({ title: t('failed_save_record'), message: msg, color: 'red' });
           } finally {
             setAddOpen(false);
             setEditItem(null);

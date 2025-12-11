@@ -96,6 +96,8 @@ type Props = Omit<InfoCardProps, 'children' | 'title'> & {
   goalMl?: number; // objective in milliliters
   onAddClick?: () => void;
   onAdd250Click?: () => void;
+  add250Loading?: boolean;
+  addLoading?: boolean;
 };
 
 const WaterProgressCard: React.FC<Props> = ({
@@ -103,11 +105,13 @@ const WaterProgressCard: React.FC<Props> = ({
   goalMl = 2000,
   onAddClick,
   onAdd250Click,
+  add250Loading = false,
+  addLoading = false,
   ...infoCardProps
 }) => {
   const safeGoal = Math.max(1, goalMl);
   const percent = Math.min(100, Math.max(0, (currentMl / safeGoal) * 100));
-  const displayPercent = Math.round(percent);
+  // displayPercent intentionally removed - percent is used visually via svg
   const remainingMl = Math.max(0, goalMl - currentMl);
 
   const { t } = useTranslation();
@@ -123,13 +127,13 @@ const WaterProgressCard: React.FC<Props> = ({
             {remainingMl} {t('ml_remaining')}
           </Text>
           {onAdd250Click ? (
-            <Button variant="light" size="md" onClick={onAdd250Click}>
+            <Button variant="light" size="md" onClick={onAdd250Click} loading={add250Loading}>
               {t('add_250_ml')}
             </Button>
           ) : null}
 
           {onAddClick ? (
-            <Button variant="light" size="md" onClick={onAddClick}>
+            <Button variant="light" size="md" onClick={onAddClick} loading={addLoading}>
               {t('add_water')}
             </Button>
           ) : null}

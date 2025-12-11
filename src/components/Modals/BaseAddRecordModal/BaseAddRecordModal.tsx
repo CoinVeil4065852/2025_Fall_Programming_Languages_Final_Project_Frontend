@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Group, Modal, Stack } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { useForm } from '@mantine/form';
@@ -36,9 +36,17 @@ function BaseAddRecordModal<T extends Record<string, any>>({
     }
   }, [initialValues, opened]);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = form.onSubmit(async (values) => {
-    await onSubmit(values);
-    onClose();
+    setIsSubmitting(true);
+    try {
+      await onSubmit(values);
+      setIsSubmitting(false);
+      onClose();
+    } catch (err) {
+      setIsSubmitting(false);
+      throw err;
+    }
   });
 
   return (
@@ -48,13 +56,17 @@ function BaseAddRecordModal<T extends Record<string, any>>({
       title={resolvedTitle}
       centered
       withOverlay
-      closeOnClickOutside={true}
+      closeOnClickOutside
     >
       <form onSubmit={handleSubmit} noValidate>
         <Stack>
-          {children(form)}
+          <fieldset disabled={isSubmitting} style={{ border: 'none', margin: 0, padding: 0 }}>
+            {children(form)}
+          </fieldset>
           <Group ml="auto" mt="md">
-            <Button type="submit">{resolvedSubmit}</Button>
+            <Button type="submit" loading={isSubmitting}>
+              {resolvedSubmit}
+            </Button>
           </Group>
         </Stack>
       </form>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { showNotification } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
 import { Grid, Group, Text } from '@mantine/core';
 import ActivityProgressCard from '@/components/InfoCard/ActivityProgressCard/ActivityProgressCard';
@@ -19,6 +20,7 @@ type UiActivityRecord = {
 
 const ActivityPage = () => {
   const [error, setError] = useState<string | null>(null);
+  const [deleteLoadingId, setDeleteLoadingId] = useState<string | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [editItem, setEditItem] = useState<UiActivityRecord | null>(null);
 
@@ -69,10 +71,16 @@ const ActivityPage = () => {
         onDelete={async (r) => {
           try {
             setError(null);
+            setDeleteLoadingId(r.id);
             if (deleteActivity) await deleteActivity(r.id);
+            showNotification({ title: t('delete'), message: `${t('activity_records')} deleted`, color: 'green' });
           } catch (err) {
             const msg = err instanceof Error ? err.message : String(err);
             setError(msg ?? t('failed_delete_activity'));
+            showNotification({ title: t('failed_delete_activity'), message: err instanceof Error ? err.message : String(err), color: 'red' });
+          }
+          finally {
+            setDeleteLoadingId(null);
           }
         }}
         style={{ width: '100%' }}
@@ -80,6 +88,7 @@ const ActivityPage = () => {
           setEditItem(null);
           setAddOpen(true);
         }}
+        deleteLoadingId={deleteLoadingId}
       />
 
       <AddActivityModal
@@ -99,15 +108,19 @@ const ActivityPage = () => {
         }
         onAdd={async ({ duration, time, intensity }) => {
           try {
+            setError(null);
             const minutes = typeof duration === 'number' ? duration : Number(duration);
             if (editItem) {
               if (updateActivity) await updateActivity(editItem.id, time, minutes, intensity || '');
+              showNotification({ title: t('edit_activity'), message: `${t('activity_records')} updated`, color: 'green' });
             } else {
               if (addActivity) await addActivity(time, minutes, intensity || '');
+              showNotification({ title: t('add_activity'), message: `${t('activity_records')} added`, color: 'green' });
             }
           } catch (e) {
             const msg = e instanceof Error ? e.message : String(e);
             setError(msg ?? t(editItem ? 'failed_update_activity' : 'failed_add_activity'));
+            showNotification({ title: t(editItem ? 'failed_update_activity' : 'failed_add_activity'), message: String(msg), color: 'red' });
           } finally {
             setAddOpen(false);
             setEditItem(null);
