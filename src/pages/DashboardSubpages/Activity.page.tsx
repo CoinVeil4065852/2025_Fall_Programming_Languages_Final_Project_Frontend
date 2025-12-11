@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Grid, Group, Text } from '@mantine/core';
 import ActivityProgressCard from '@/components/InfoCard/ActivityProgressCard/ActivityProgressCard';
 import ActivityWeeklyCard from '@/components/InfoCard/ActivityWeeklyCard/ActivityWeeklyCard';
+import { aggregateByWeekday } from '@/utils/weekly';
 import AddActivityModal from '@/components/Modals/AddActivityModal/AddActivityModal';
 import RecordList from '../../components/RecordList/RecordList';
 import { useAppData } from '@/AppDataContext';
@@ -35,6 +36,8 @@ const ActivityPage = () => {
 
   const totalMinutes = uiRecords.reduce((s, r) => s + (r.minutes || 0), 0);
 
+  const weeklyActivity = aggregateByWeekday(uiRecords, (r) => (r.date ? `${r.date}T00:00` : ''), (r) => r.minutes);
+
   return (
     <Group gap="md" align="stretch" justify="start">
       <ActivityProgressCard
@@ -48,7 +51,7 @@ const ActivityPage = () => {
           {error}
         </Text>
       )}
-      <ActivityWeeklyCard data={uiRecords.slice(0, 7).map((r) => r.minutes)} />
+      <ActivityWeeklyCard data={weeklyActivity} />
       <RecordList
         title={t('activity_records')}
         records={uiRecords}

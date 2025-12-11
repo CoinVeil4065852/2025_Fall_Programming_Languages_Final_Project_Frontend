@@ -5,6 +5,7 @@ import { useAppData } from '@/AppDataContext';
 import type { WaterRecord } from '@/services/types';
 import WaterProgressCard from '@/components/InfoCard/WaterProgressCard/WaterProgressCard';
 import WaterWeeklyCard from '@/components/InfoCard/WaterWeeklyCard/WaterWeeklyCard';
+import { aggregateByWeekday } from '@/utils/weekly';
 import AddWaterModal from '@/components/Modals/AddWaterModal/AddWaterModal';
 import RecordList from '../../components/RecordList/RecordList';
 
@@ -60,7 +61,7 @@ const WaterPage = () => {
           {error}
         </Text>
       )}
-      <WaterWeeklyCard data={uiRecords.slice(0, 7).map((r) => r.amountMl)} />
+      <WaterWeeklyCard data={aggregateByWeekday(uiRecords, (r) => (r.date ? `${r.date}T00:00` : ''), (r) => r.amountMl)} />
 
       <RecordList
         title={t('water_records')}

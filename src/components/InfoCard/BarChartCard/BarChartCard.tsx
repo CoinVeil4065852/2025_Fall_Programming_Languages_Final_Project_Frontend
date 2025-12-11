@@ -58,7 +58,9 @@ const BarChartCard: React.FC<Props> = ({
               const h = (val / max) * innerH;
               const x = padding.left + i * (barWidth + barGap);
               const y = padding.top + innerH - h;
-              const isToday = i === new Date().getDay() - 1;
+              // i indexes Mon..Sun (0..6). Convert Date.getDay() to Monday-first index for comparison.
+              const todayIdx = (new Date().getDay() + 6) % 7;
+              const isToday = i === todayIdx;
               return (
                 <g key={i}>
                   <rect x={x} y={y} width={barWidth} height={h} rx={4} fill={isToday ? highlightColor : barColor} />

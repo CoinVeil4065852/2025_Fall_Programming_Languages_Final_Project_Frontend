@@ -100,7 +100,7 @@ const UserMetricsCard: React.FC<Props> = ({ profile, error, bmi: apiBmi }) => {
                 {t('bmi')}
               </Text>
               <Text fw={700} size="lg" c={bmiInfo.color as MantineColor}>
-                {bmi ?? '—'}
+                {typeof bmi === 'number' ? bmi.toFixed(1) : '—'}
               </Text>
             </Stack>
           </SimpleGrid>

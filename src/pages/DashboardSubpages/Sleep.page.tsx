@@ -5,6 +5,7 @@ import { useAppData } from '@/AppDataContext';
 import type { SleepRecord as ApiSleepRecord } from '@/services/types';
 import SleepProgressCard from '@/components/InfoCard/SleepProgressCard/SleepProgressCard';
 import SleepWeeklyCard from '@/components/InfoCard/SleepWeeklyCard/SleepWeeklyCard';
+import { aggregateByWeekday } from '@/utils/weekly';
 import AddSleepModal from '@/components/Modals/AddSleepModal/AddSleepModal';
 import RecordList from '../../components/RecordList/RecordList';
 
@@ -39,7 +40,7 @@ const SleepPage = () => {
           {error}
         </Text>
       )}
-      <SleepWeeklyCard data={recordsFromCtx.slice(0, 7).map((r) => r.hours)} />
+      <SleepWeeklyCard data={aggregateByWeekday(recordsFromCtx, (r) => (r.date ? `${r.date}T00:00` : ''), (r) => r.hours)} />
 
       <RecordList
         title={t('sleep_records')}
