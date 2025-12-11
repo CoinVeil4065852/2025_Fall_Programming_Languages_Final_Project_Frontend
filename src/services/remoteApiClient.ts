@@ -1,4 +1,4 @@
-import { ApiClient, AuthResponse, Credentials, User, WaterRecord, SleepRecord, ActivityRecord, CustomItem, Category } from './types';
+import { ApiClient, AuthResponse, User, WaterRecord, SleepRecord, ActivityRecord, CustomItem, Category } from './types';
 
 const base = import.meta.env.VITE_API_BASE || '';
 
@@ -74,7 +74,11 @@ export const remoteApiClient: ApiClient = {
   },
 
   async deleteWater(token, id) {
-    await req(`/waters/${encodeURIComponent(id)}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    await req(`/waters/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    });
   },
 
 
@@ -112,7 +116,11 @@ export const remoteApiClient: ApiClient = {
   },
 
   async deleteActivity(token, id) {
-    await req(`/activities/${encodeURIComponent(id)}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    await req(`/activities/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    });
   },
 
   async sortActivityByDuration(token) {
@@ -141,7 +149,11 @@ export const remoteApiClient: ApiClient = {
     return json as CustomItem;
   },
   async deleteCustomItem(token, categoryId, itemId) {
-    await req(`/category/${encodeURIComponent(categoryId)}/${encodeURIComponent(itemId)}`, { method: 'DELETE', headers: token ? { Authorization: `Bearer ${token}` } : {} });
+    await req(`/category/${encodeURIComponent(categoryId)}/${encodeURIComponent(itemId)}`, {
+      method: 'DELETE',
+      headers: token ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    });
   },
 };
 
