@@ -7,6 +7,9 @@ import { AppDataProvider } from './AppDataContext';
 import { Router } from './Router';
 import { theme } from './theme';
 
+
+
+
 const App = () => {
   return (
     <MantineProvider theme={theme}>
