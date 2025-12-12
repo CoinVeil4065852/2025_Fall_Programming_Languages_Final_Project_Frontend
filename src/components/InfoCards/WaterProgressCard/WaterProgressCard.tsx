@@ -128,13 +128,25 @@ const WaterProgressCard: React.FC<Props> = ({
             {remainingMl} {t('ml_remaining')}
           </Text>
           {onAdd250Click ? (
-            <Button variant="light" size="md" onClick={onAdd250Click} loading={add250Loading}>
+            <Button
+              variant="light"
+              size="md"
+              onClick={onAdd250Click}
+              loading={add250Loading}
+              color="blue"
+            >
               {t('add_250_ml')}
             </Button>
           ) : null}
 
           {onAddClick ? (
-            <Button variant="light" size="md" onClick={onAddClick} loading={addLoading}>
+            <Button
+              variant="light"
+              size="md"
+              onClick={onAddClick}
+              loading={addLoading}
+              color="blue"
+            >
               {t('add_water')}
             </Button>
           ) : null}

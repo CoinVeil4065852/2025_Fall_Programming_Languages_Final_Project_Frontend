@@ -52,6 +52,7 @@ const SleepPage = () => {
       <RecordList
         title={t('sleep_records')}
         records={recordsFromCtx}
+        color="grape"
         onEdit={(r) => {
           const rec = r as UiSleepRecord;
           setEditItem({ id: rec.id, date: rec.date, time: rec.time, hours: rec.hours });

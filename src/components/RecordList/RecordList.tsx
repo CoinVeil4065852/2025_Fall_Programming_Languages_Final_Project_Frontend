@@ -7,7 +7,7 @@ type RecordItem = { id: string; [key: string]: unknown };
 type RecordListProps = Omit<InfoCardProps, 'children'> & {
   title?: string;
   records: RecordItem[];
-
+  color?: string;
   onEdit?: (r: RecordItem) => void;
   onDelete?: (r: RecordItem) => void;
   onAddClick?: () => void;
@@ -15,6 +15,7 @@ type RecordListProps = Omit<InfoCardProps, 'children'> & {
 };
 
 const RecordList = ({
+  color,
   title,
   records,
   onEdit,
@@ -32,7 +33,7 @@ const RecordList = ({
       {...infoCardProps}
       rightHeader={
         onAddClick ? (
-          <Button size="xs" onClick={onAddClick}>
+          <Button color={color} size="xs" onClick={onAddClick}>
             {t('add')}
           </Button>
         ) : undefined
@@ -76,7 +77,7 @@ const RecordList = ({
                 <Table.Td>
                   <Group gap={6} justify="right">
                     {onEdit ? (
-                      <Button size="xs" variant="outline" onClick={() => onEdit(r)}>
+                      <Button color={color} size="xs" variant="outline" onClick={() => onEdit(r)}>
                         {t('edit')}
                       </Button>
                     ) : null}

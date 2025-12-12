@@ -59,6 +59,7 @@ const ActivityPage = () => {
       <RecordList
         title={t('activity_records')}
         records={uiRecords}
+        color="orange"
         onEdit={(r) => {
           const rec = r as UiActivityRecord;
           setEditItem({

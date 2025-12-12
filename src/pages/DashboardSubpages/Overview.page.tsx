@@ -65,13 +65,13 @@ const OverviewPage = () => {
     <Group gap="md" justify="start" align="stretch">
       <UserMetricsCard profile={profile} error={error} bmi={apiBmi} />
 
-      <SleepProgressCard currentHours={Number((sleepAvg || 0).toFixed(1))} goalHours={8} />
       <WaterProgressCard currentMl={waterToday} goalMl={2000} />
       <ActivityProgressCard
         calories={activityToday.calories}
         caloriesGoal={600}
         durationMinutes={activityToday.duration}
       />
+      <SleepProgressCard currentHours={Number((sleepAvg || 0).toFixed(1))} goalHours={8} />
     </Group>
   );
 };

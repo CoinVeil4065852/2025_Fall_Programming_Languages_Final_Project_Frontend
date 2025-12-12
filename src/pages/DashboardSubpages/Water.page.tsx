@@ -85,6 +85,7 @@ const WaterPage = () => {
       <RecordList
         title={t('water_records')}
         records={uiRecords}
+        color="blue"
         deleteLoadingId={deleteLoadingId}
         onEdit={(r) => {
           const rec = r as UiWaterRecord;
