@@ -1,42 +1,25 @@
-# Health Tracker Dashboard
+# Health Tracker
+
+> This is a final project for the course DBME 2008 程式語言 at NTU
 
 Health Tracker Dashboard is a demo front-end app for monitoring activity, sleep and water intake. It is built with React, Vite and Mantine and includes a dashboard, charts, localization, and authentication flows for a complete user experience.
 
-## Features
+## Build
 
-This template comes with the following features:
+- `npm run dev` to start the dev server
+- `npm run build` to build production static files
 
-- [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Storybook](https://storybook.js.org/)
-- [Vitest](https://vitest.dev/) setup with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- ESLint setup with [eslint-config-mantine](https://github.com/mantinedev/eslint-config-mantine)
+## Backend
 
-## npm scripts
+### Server
 
-## Build and dev scripts
+[Health Backend](https://github.com/viviennnne/health_backend#) is the official backend for this project, go to the page to see more.
 
-- `dev` – start development server
-- `build` – build production version of the app
-- `preview` – locally preview production build
+### Configuration
 
-### Testing scripts
+This project comes with a mock api, which is enable by default. To use a real backend, create an `.env` file in the project root folder with content:
 
-- `typecheck` – checks TypeScript types
-- `lint` – runs ESLint
-- `prettier:check` – checks files with Prettier
-- `vitest` – runs vitest tests
-- `vitest:watch` – starts vitest watch
-- `test` – runs `vitest`, `prettier:check`, `lint` and `typecheck` scripts
-
-### Other scripts
-
-- `storybook` – starts storybook dev server
-- `storybook:build` – build production storybook bundle to `storybook-static`
-- `prettier:write` – formats all files with Prettier
- 
-## Metadata and SEO
-
-The app's metadata (title, description, Open Graph and Twitter tags) is stored in `index.html`. A Web App Manifest is available at `public/manifest.webmanifest` and the favicon is at `public/favicon.svg`.
-
-To customize the title, description, or social card, update `index.html` accordingly and update the links in `public/manifest.webmanifest` if needed.
+```txt
+VITE_USE_MOCK_API=false
+VITE_API_BASE=<url_to_api>
+```
