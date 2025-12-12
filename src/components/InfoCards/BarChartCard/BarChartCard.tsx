@@ -6,7 +6,7 @@ import {
   rem,
   Stack,
   Text,
-  useMantineColorScheme,
+  useComputedColorScheme,
   useMantineTheme,
 } from '@mantine/core';
 import InfoCard, { InfoCardProps } from '../InfoCard';
@@ -42,7 +42,7 @@ const BarChartCard: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const theme = useMantineTheme();
-  const { colorScheme } = useMantineColorScheme();
+  const colorScheme = useComputedColorScheme();
 
   // Normalize Data
   const d = data.slice(0, 7);

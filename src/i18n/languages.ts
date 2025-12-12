@@ -12,6 +12,9 @@ export const SUPPORTED_LOCALES: LocaleOption[] = [
   { code: 'ja', labelKey: 'japanese', flag: '🇯🇵' },
   { code: 'ko', labelKey: 'korean', flag: '🇰🇷' },
   { code: 'zh-CN', labelKey: 'chinese_zh_cn', flag: '🇨🇳' },
+  { code: 'id', labelKey: 'indonesian', flag: '🇮🇩' },
+  { code: 'th', labelKey: 'thai', flag: '🇹🇭' },
+  { code: 'ms', labelKey: 'malay', flag: '🇲🇾' },
 ];
 
 export default SUPPORTED_LOCALES;
