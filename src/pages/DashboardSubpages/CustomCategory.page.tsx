@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Grid, Group, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Group, Select, Stack, Text, TextInput } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useAppData } from '@/AppDataContext';
 import { AddCustomItemModal } from '@/components/Modals';
@@ -130,9 +130,34 @@ const CustomCategoryPage = () => {
 
   return (
     <Stack gap="md">
-      <h1>{t('custom_category')}</h1>
-      <Grid>
-        <Grid.Col span={6}>
+      <Stack>
+        <Group>
+          <TextInput
+          flex={1}
+          maw={300}
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.currentTarget.value)}
+            placeholder={t('new_category_name')}
+          />
+          <Button
+            onClick={createCategory}
+            loading={createLoading}
+            disabled={createLoading || !newCategory}
+          >
+            {t('create')}
+          </Button>
+          {selectedCategory && (
+            <Button
+              color="red"
+              onClick={handleDeleteCategory}
+              loading={deleteCategoryLoading}
+              disabled={deleteCategoryLoading}
+            >
+              {t('delete')}
+            </Button>
+          )}
+        </Group>
+        <Group>
           <Select
             data={categories.map((c) => ({ value: c.id, label: c.categoryName }))}
             value={selectedCategory}
@@ -140,34 +165,8 @@ const CustomCategoryPage = () => {
             placeholder={t('select_category')}
             searchable
           />
-        </Grid.Col>
-        <Grid.Col span={6}>
-          <Group>
-            <TextInput
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.currentTarget.value)}
-              placeholder={t('new_category_name')}
-            />
-            <Button
-              onClick={createCategory}
-              loading={createLoading}
-              disabled={createLoading || !newCategory}
-            >
-              {t('create')}
-            </Button>
-            {selectedCategory && (
-              <Button
-                color="red"
-                onClick={handleDeleteCategory}
-                loading={deleteCategoryLoading}
-                disabled={deleteCategoryLoading}
-              >
-                {t('delete')}
-              </Button>
-            )}
-          </Group>
-        </Grid.Col>
-      </Grid>
+        </Group>
+      </Stack>
 
       {error && (
         <Text c="red" size="sm">

@@ -7,6 +7,7 @@ export type InfoCardProps = Omit<CardProps, 'children'> & {
   subtitle?: React.ReactNode;
   icon?: React.ReactNode;
   children?: React.ReactNode;
+  childrenPadding?: 'sm' | 'md' | 'lg' | 'xl' | number | string;
 };
 
 const InfoCard = ({
@@ -15,17 +16,18 @@ const InfoCard = ({
   icon,
   children,
   rightHeader,
+  childrenPadding,
   ...cardProps
 }: InfoCardProps) => {
   return (
-    <Card withBorder shadow="md" radius="md" {...cardProps}>
+    <Card withBorder shadow="md" radius="md" {...cardProps} w={{ base: '100%', sm: 'auto' }}>
       <Card.Section p="lg" pb="sm">
         <Group align="center" justify="left">
           <Title order={3}>{title}</Title>
           {rightHeader ? <Group ml="auto">{rightHeader}</Group> : null}
         </Group>
       </Card.Section>
-      <Card.Section p="xl" pt="sm" flex={1}>
+      <Card.Section p={childrenPadding ?? 'xl'} pt="sm" flex={1}>
         <Stack gap="xs" align="center" justify="center" h={'100%'} w={'100%'}>
           {children}
           {subtitle ? (

@@ -1,5 +1,6 @@
+import { IconPencil, IconTrash } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import { Button, Group, Stack, Table, Text, Badge } from '@mantine/core';
+import { ActionIcon, Badge, Button, Group, Stack, Table, Text } from '@mantine/core';
 import InfoCard, { InfoCardProps } from '../InfoCards/InfoCard';
 
 type RecordItem = { id: string; [key: string]: unknown };
@@ -38,6 +39,7 @@ const RecordList = ({
           </Button>
         ) : undefined
       }
+      childrenPadding={"sm"}
     >
       {records.length === 0 ? (
         <Stack align="center" gap="xs" mt="md">
@@ -97,13 +99,13 @@ const RecordList = ({
                   );
                 })}
                 <Table.Td>
-                  <Group gap={6} justify="right">
-                    {onEdit ? (
+                  <Group visibleFrom="sm" gap={6} justify="right">
+                    {onEdit && (
                       <Button color={color} size="xs" variant="outline" onClick={() => onEdit(r)}>
                         {t('edit')}
                       </Button>
-                    ) : null}
-                    {onDelete ? (
+                    )}
+                    {onDelete && (
                       <Button
                         size="xs"
                         color="red"
@@ -113,8 +115,20 @@ const RecordList = ({
                       >
                         {t('delete')}
                       </Button>
-                    ) : null}
+                    )}
                   </Group>
+                  <ActionIcon.Group  hiddenFrom="sm">
+                    {onEdit && (
+                      <ActionIcon variant="default" size="lg" onClick={() => onEdit(r)}>
+                        <IconPencil size={20} stroke={1.5} />
+                      </ActionIcon>
+                    )}
+                    {onDelete && (
+                      <ActionIcon variant="default" size="lg" onClick={() => onDelete(r)}>
+                        <IconTrash size={20} stroke={1.5} />
+                      </ActionIcon>
+                    )}
+                  </ActionIcon.Group>
                 </Table.Td>
               </Table.Tr>
             ))}
