@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Button, Group, Stack, Table, Text } from '@mantine/core';
+import { Button, Group, Stack, Table, Text, Badge } from '@mantine/core';
 import InfoCard, { InfoCardProps } from '../InfoCards/InfoCard';
 
 type RecordItem = { id: string; [key: string]: unknown };
@@ -68,6 +68,28 @@ const RecordList = ({
               <Table.Tr key={r.id}>
                 {keys.map((k) => {
                   const value: unknown = (r as Record<string, unknown>)[k] ?? '';
+                  if (k === 'intensity') {
+                    const s = String(value ?? '').toLowerCase();
+                    const normalized = s === 'moderate' ? 'medium' : s;
+                    const labelKey = `intensity_${normalized}`;
+                    const colorMap: Record<string, string> = {
+                      low: 'green',
+                      medium: 'orange',
+                      high: 'red',
+                    };
+                    const badgeColor = colorMap[s] ?? colorMap[normalized] ?? 'gray';
+                    return (
+                      <Table.Td key={k}>
+                        {s ? (
+                          <Badge color={badgeColor} radius="sm" variant="filled">
+                            {t(labelKey)}
+                          </Badge>
+                        ) : (
+                          <Text size="sm">{String(value)}</Text>
+                        )}
+                      </Table.Td>
+                    );
+                  }
                   return (
                     <Table.Td key={k}>
                       <Text size="sm">{String(value)}</Text>
