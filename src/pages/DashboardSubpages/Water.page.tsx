@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Group, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useAppData } from '@/AppDataContext';
-import { WaterProgressCard, WaterWeeklyCard } from '@/components/InfoCard';
+import { WaterProgressCard, WaterWeeklyCard } from '@/components/InfoCards';
 import { AddWaterModal } from '@/components/Modals';
 import type { WaterRecord } from '@/services/types';
 import { aggregateByWeekday } from '@/utils/weekly';

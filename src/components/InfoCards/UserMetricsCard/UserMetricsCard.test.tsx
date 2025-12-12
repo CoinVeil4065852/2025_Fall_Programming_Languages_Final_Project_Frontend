@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, expect, it } from 'vitest';
-import { render } from '../../../test-utils';
+import { render } from '../../../../test-utils';
 import UserMetricsCard from './UserMetricsCard';
 
 describe('UserMetricsCard', () => {

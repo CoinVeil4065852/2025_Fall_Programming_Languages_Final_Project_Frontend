@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Group, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useAppData } from '@/AppDataContext';
-import { ActivityProgressCard, ActivityWeeklyCard } from '@/components/InfoCard';
+import { ActivityProgressCard, ActivityWeeklyCard } from '@/components/InfoCards';
 import { AddActivityModal } from '@/components/Modals';
 import type { ActivityRecord as ApiActivityRecord } from '@/services/types';
 import { aggregateByWeekday } from '@/utils/weekly';

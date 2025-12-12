@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Group, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useAppData } from '@/AppDataContext';
-import { SleepProgressCard, SleepWeeklyCard } from '@/components/InfoCard';
+import { SleepProgressCard, SleepWeeklyCard } from '@/components/InfoCards';
 import { AddSleepModal } from '@/components/Modals';
 import type { SleepRecord as ApiSleepRecord } from '@/services/types';
 import { aggregateByWeekday } from '@/utils/weekly';

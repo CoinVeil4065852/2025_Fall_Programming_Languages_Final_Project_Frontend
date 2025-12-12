@@ -84,7 +84,7 @@ const BarChartCard: React.FC<Props> = ({
 
   return (
     <InfoCard title={title} {...infoCardProps}>
-      <Stack gap="xs">
+      <Stack gap="xs" align="stretch" justify="">
         <Box
           w="100%"
           style={{

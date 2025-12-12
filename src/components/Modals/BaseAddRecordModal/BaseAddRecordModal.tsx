@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Group, Modal, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -30,30 +30,36 @@ function BaseAddRecordModal<T extends Record<string, any>>({
     validateInputOnBlur: true,
   });
 
+  // Only update the form values when the modal opens or the incoming
+  // initialValues object actually changes its content. We track the
+  // last incoming initial values JSON to avoid re-applying values
+  // on every render when the child passes a new object with the
+  // same content (which would clobber user input).
+  const lastInitialJson = useRef<string | null>(null);
   useEffect(() => {
-    // Only set form values when the modal opens or initialValues changes
-    // Guard against unnecessary updates by comparing the incoming
-    // values with the current form values to prevent infinite update loops.
-    if (!opened || !initialValues) {
+    if (!opened) {
+      // Clear the remembered initial values so next open will set them
+      lastInitialJson.current = null;
+      return;
+    }
+    if (!initialValues) {
       return;
     }
 
     try {
-      const incoming = JSON.stringify(initialValues);
-      const current = JSON.stringify(form.values);
-      if (incoming !== current) {
+      const incomingJson = JSON.stringify(initialValues);
+      // If we've already applied this same initial values content,
+      // don't reapply it (otherwise user edits would be overwritten).
+      if (lastInitialJson.current !== incomingJson) {
         form.setValues(initialValues as T);
+        lastInitialJson.current = incomingJson;
       }
     } catch (err) {
       // If values are not serializable, just set values (fallback)
       form.setValues(initialValues as T);
+      lastInitialJson.current = null;
     }
-    // We intentionally avoid adding `form` or `form.values` to the deps
-    // array as the `useForm` result is stable and adding it can cause
-    // the effect to fire more often than needed. We include `opened`
-    // and `initialValues` so updates happen when the modal opens or
-    // new initial values are provided.
-  }, [initialValues, opened, form]);
+  }, [initialValues, opened]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = form.onSubmit(async (values) => {

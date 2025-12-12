@@ -11,3 +11,4 @@ export { default as ActivityProgressCard } from './ActivityProgressCard/Activity
 export { default as ActivityWeeklyCard } from './ActivityWeeklyCard/ActivityWeeklyCard';
 
 export { default as BarChartCard } from './BarChartCard/BarChartCard';
+export { default as UserMetricsCard } from './UserMetricsCard/UserMetricsCard';

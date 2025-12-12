@@ -13,7 +13,7 @@ import {
   Text,
   ThemeIcon,
 } from '@mantine/core';
-import { InfoCard } from '@/components/InfoCard';
+import { InfoCard } from '@/components/InfoCards';
 import type { User } from '@/services/types';
 
 type Props = {
@@ -52,7 +52,7 @@ const UserMetricsCard: React.FC<Props> = ({ profile, error, bmi: apiBmi }) => {
         <Stack gap="lg">
           {/* 1. User Header Section */}
           <Group align="center">
-            <Avatar size="lg" radius="xl" color="blue" variant="light">
+            <Avatar size="lg" radius="xl" variant="light">
               {profile?.name?.[0]?.toUpperCase() ?? <IconUser size={24} />}
             </Avatar>
 

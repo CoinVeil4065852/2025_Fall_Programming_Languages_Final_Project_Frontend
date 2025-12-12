@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Button, Group, Stack, Table, Text } from '@mantine/core';
-import InfoCard, { InfoCardProps } from '../InfoCard/InfoCard';
+import InfoCard, { InfoCardProps } from '../InfoCards/InfoCard';
 
 type RecordItem = { id: string; [key: string]: unknown };
 
