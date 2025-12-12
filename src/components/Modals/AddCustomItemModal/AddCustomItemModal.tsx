@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Stack, TextInput } from '@mantine/core';
 import { toLocalDatetimeInput } from '@/utils/datetime';
@@ -24,10 +24,9 @@ const AddCustomItemModal: React.FC<Props> = ({
   initialValues,
   submitLabel,
 }) => {
-  const defaults: Values = {
-    datetime: toLocalDatetimeInput(new Date()),
-    note: '',
-  };
+  // Recompute defaults each time the modal opens so the default time is current
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const defaults: Values = useMemo(() => ({ datetime: toLocalDatetimeInput(new Date()), note: '' }), [opened]);
 
   const { t } = useTranslation();
 

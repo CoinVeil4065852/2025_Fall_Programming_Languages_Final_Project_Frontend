@@ -31,9 +31,28 @@ function BaseAddRecordModal<T extends Record<string, any>>({
   });
 
   useEffect(() => {
-    if (initialValues) {
+    // Only set form values when the modal opens or initialValues changes
+    // Guard against unnecessary updates by comparing the incoming
+    // values with the current form values to prevent infinite update loops.
+    if (!opened || !initialValues) {
+      return;
+    }
+
+    try {
+      const incoming = JSON.stringify(initialValues);
+      const current = JSON.stringify(form.values);
+      if (incoming !== current) {
+        form.setValues(initialValues as T);
+      }
+    } catch (err) {
+      // If values are not serializable, just set values (fallback)
       form.setValues(initialValues as T);
     }
+    // We intentionally avoid adding `form` or `form.values` to the deps
+    // array as the `useForm` result is stable and adding it can cause
+    // the effect to fire more often than needed. We include `opened`
+    // and `initialValues` so updates happen when the modal opens or
+    // new initial values are provided.
   }, [initialValues, opened, form]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);

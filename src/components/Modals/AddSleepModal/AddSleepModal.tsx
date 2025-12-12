@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NumberInput, Stack, TextInput } from '@mantine/core';
 import { toLocalDatetimeInput } from '@/utils/datetime';
@@ -18,10 +18,9 @@ type Props = {
 };
 
 const AddSleepModal: React.FC<Props> = ({ opened, onClose, onAdd, initialValues, submitLabel }) => {
-  const defaults: Values = {
-    hours: 7.5,
-    time: toLocalDatetimeInput(new Date()),
-  };
+  // Recompute defaults each time the modal opens so the default time is current
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const defaults: Values = useMemo(() => ({ hours: 7.5, time: toLocalDatetimeInput(new Date()) }), [opened]);
 
   const { t } = useTranslation();
 

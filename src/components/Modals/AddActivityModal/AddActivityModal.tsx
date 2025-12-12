@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import { toLocalDatetimeInput } from '@/utils/datetime';
@@ -25,11 +25,9 @@ const AddActivityModal: React.FC<Props> = ({
   initialValues,
   submitLabel,
 }) => {
-  const defaults: Values = {
-    duration: 30,
-    time: toLocalDatetimeInput(new Date()),
-    intensity: 'moderate',
-  };
+  // Recompute defaults each time the modal opens so the default time is current
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const defaults: Values = useMemo(() => ({ duration: 30, time: toLocalDatetimeInput(new Date()), intensity: 'moderate' }), [opened]);
 
   const { t } = useTranslation();
 
