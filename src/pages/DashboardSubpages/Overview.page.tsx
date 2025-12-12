@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Group } from '@mantine/core';
-import { ActivityProgressCard, SleepProgressCard, WaterProgressCard } from '@/components/InfoCards';
-import {UserMetricsCard} from '@/components/InfoCards';
+import {
+  ActivityProgressCard,
+  SleepProgressCard,
+  UserMetricsCard,
+  WaterProgressCard,
+} from '@/components/InfoCards';
 // translations not used in Overview page; handled by components
 import type { User } from '@/services/types';
 import { useAppData } from '../../AppDataContext';

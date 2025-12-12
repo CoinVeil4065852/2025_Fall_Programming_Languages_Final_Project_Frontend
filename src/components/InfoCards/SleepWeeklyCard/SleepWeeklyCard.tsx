@@ -17,6 +17,7 @@ const SleepWeeklyCard: React.FC<Props> = ({ data, labels, ...infoCardProps }) =>
       data={data}
       labels={labels}
       unitLabel={t('hours')}
+      color="grape"
       {...infoCardProps}
     />
   );

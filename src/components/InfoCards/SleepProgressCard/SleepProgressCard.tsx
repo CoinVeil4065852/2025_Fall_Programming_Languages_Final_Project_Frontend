@@ -38,7 +38,7 @@ const SleepProgressCard: React.FC<Props> = ({
           </Group>
         </Stack>
         <Stack align="stretch" style={{ width: '100%' }}>
-          <Progress value={percent} size="xl" radius="xl" />
+          <Progress value={percent} size="xl" radius="xl" color="grape" />
           <Group justify="space-between">
             <Text size="xs" c="dimmed">
               0

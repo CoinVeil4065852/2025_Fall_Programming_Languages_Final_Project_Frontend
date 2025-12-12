@@ -27,7 +27,10 @@ const AddActivityModal: React.FC<Props> = ({
 }) => {
   // Recompute defaults each time the modal opens so the default time is current
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const defaults: Values = useMemo(() => ({ duration: 30, time: toLocalDatetimeInput(new Date()), intensity: 'moderate' }), [opened]);
+  const defaults: Values = useMemo(
+    () => ({ duration: 30, time: toLocalDatetimeInput(new Date()), intensity: 'moderate' }),
+    [opened]
+  );
 
   const { t } = useTranslation();
 

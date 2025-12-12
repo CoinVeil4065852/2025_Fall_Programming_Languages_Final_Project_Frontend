@@ -25,9 +25,8 @@ const InfoCard = ({
           {rightHeader ? <Group ml="auto">{rightHeader}</Group> : null}
         </Group>
       </Card.Section>
-      <Card.Section p="xl" pt="sm">
-        {/* Center content inside cards by default */}
-        <Stack gap="xs" align="center" justify="center">
+      <Card.Section p="xl" pt="sm" flex={1}>
+        <Stack gap="xs" align="center" justify="center" h={'100%'} w={'100%'}>
           {children}
           {subtitle ? (
             <Text size="xs" c="dimmed">

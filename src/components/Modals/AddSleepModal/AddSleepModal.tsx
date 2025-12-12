@@ -20,7 +20,10 @@ type Props = {
 const AddSleepModal: React.FC<Props> = ({ opened, onClose, onAdd, initialValues, submitLabel }) => {
   // Recompute defaults each time the modal opens so the default time is current
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const defaults: Values = useMemo(() => ({ hours: 7.5, time: toLocalDatetimeInput(new Date()) }), [opened]);
+  const defaults: Values = useMemo(
+    () => ({ hours: 7.5, time: toLocalDatetimeInput(new Date()) }),
+    [opened]
+  );
 
   const { t } = useTranslation();
 

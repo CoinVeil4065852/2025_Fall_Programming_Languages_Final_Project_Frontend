@@ -163,7 +163,7 @@ const ActivityProgressCard: React.FC<Props> = ({
         />
         <Group>
           <Group>
-            <ThemeIcon  size="sm" radius="full">
+            <ThemeIcon size="sm" radius="full" color="orange">
               <IconClock size={16} />
             </ThemeIcon>
             <Text fw={700} size="sm">

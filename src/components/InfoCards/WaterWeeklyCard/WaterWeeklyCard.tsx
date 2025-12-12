@@ -17,6 +17,7 @@ const WaterWeeklyCard: React.FC<Props> = ({ data, labels, ...infoCardProps }) =>
       data={data}
       labels={labels}
       unitLabel={t('milliliters')}
+      color="blue"
       {...infoCardProps}
     />
   );

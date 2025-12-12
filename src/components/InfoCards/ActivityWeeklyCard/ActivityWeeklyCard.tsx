@@ -16,6 +16,7 @@ const ActivityWeeklyCard: React.FC<Props> = ({ data, labels }) => {
       data={data}
       labels={labels}
       unitLabel={t('minutes')}
+      color="orange"
     />
   );
 };
