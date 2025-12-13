@@ -133,8 +133,8 @@ const CustomCategoryPage = () => {
       <Stack>
         <Group>
           <TextInput
-          flex={1}
-          maw={300}
+            flex={1}
+            maw={300}
             value={newCategory}
             onChange={(e) => setNewCategory(e.currentTarget.value)}
             placeholder={t('new_category_name')}

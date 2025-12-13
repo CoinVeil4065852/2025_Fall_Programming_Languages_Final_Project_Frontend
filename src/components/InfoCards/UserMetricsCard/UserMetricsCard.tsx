@@ -52,7 +52,7 @@ const UserMetricsCard: React.FC<Props> = ({ profile, error, bmi: apiBmi }) => {
         <Stack gap="lg">
           {/* 1. User Header Section */}
           <Group align="center">
-            <Avatar size="lg" radius="xl" variant="filled" color="myColor" >
+            <Avatar size="lg" radius="xl" variant="filled" color="myColor">
               {profile?.name?.[0]?.toUpperCase() ?? <IconUser size={24} />}
             </Avatar>
 

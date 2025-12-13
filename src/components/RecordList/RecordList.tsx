@@ -39,7 +39,7 @@ const RecordList = ({
           </Button>
         ) : undefined
       }
-      childrenPadding={"sm"}
+      childrenPadding={'sm'}
     >
       {records.length === 0 ? (
         <Stack align="center" gap="xs" mt="md">
@@ -117,7 +117,7 @@ const RecordList = ({
                       </Button>
                     )}
                   </Group>
-                  <ActionIcon.Group  hiddenFrom="sm">
+                  <ActionIcon.Group hiddenFrom="sm">
                     {onEdit && (
                       <ActionIcon variant="default" size="lg" onClick={() => onEdit(r)}>
                         <IconPencil size={20} stroke={1.5} />
