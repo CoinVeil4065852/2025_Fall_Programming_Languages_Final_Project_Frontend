@@ -75,7 +75,6 @@ const CustomCategoryPage = () => {
       // if created, select the new category and initialize its list
       if (created?.id) {
         setSelected(created.id);
-        await refreshCustomData?.(created.id);
       }
       setNewCategory('');
       showNotification({
@@ -200,7 +199,6 @@ const CustomCategoryPage = () => {
             setDeleteLoadingId(r.id);
             if (selectedCategory && deleteCustomItem) {
               await deleteCustomItem(selectedCategory, r.id);
-              await refreshCustomData?.(selectedCategory);
               showNotification({
                 title: t('delete'),
                 message: t('deleted', { thing: t('records') }),
@@ -240,7 +238,6 @@ const CustomCategoryPage = () => {
             if (editItem) {
               if (updateCustomItem) {
                 await updateCustomItem(selectedCategory, editItem.id, datetime, note);
-                await refreshCustomData?.(selectedCategory);
                 showNotification({
                   title: t('edit_item'),
                   message: t('saved', { thing: t('edit_item') }),
@@ -249,7 +246,6 @@ const CustomCategoryPage = () => {
               }
             } else if (addCustomItem) {
               await addCustomItem(selectedCategory, datetime, note);
-              await refreshCustomData?.(selectedCategory);
               showNotification({
                 title: t('add_item'),
                 message: t('created', { thing: t('add_item') }),
