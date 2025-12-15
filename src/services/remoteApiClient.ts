@@ -22,7 +22,11 @@ async function req(path: string, opts: RequestInit = {}) {
   }
   if (!res.ok) {
     const obj = json as Record<string, unknown> | null;
-    const errMessage = obj && typeof obj.message === 'string' ? (obj.message as string) : undefined;
+    const errMessage = obj && typeof obj.errorMessage === 'string'
+      ? (obj.errorMessage as string)
+      : obj && typeof obj.message === 'string'
+      ? (obj.message as string)
+      : undefined;
     const err = errMessage || res.statusText || 'API error';
     throw new Error(err);
   }

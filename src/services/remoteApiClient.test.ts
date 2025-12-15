@@ -2,10 +2,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { remoteApiClient } from './remoteApiClient';
 
 // Minimal fetch mock response
-function mockFetchResponse(status = 200, body = '') {
+function mockFetchResponse(status = 200, body = '', statusText = '') {
   return Promise.resolve({
     ok: status >= 200 && status < 300,
     status,
+    statusText,
     text: () => Promise.resolve(body),
   } as unknown as Response);
 }
@@ -60,5 +61,26 @@ describe('remoteApiClient DELETE requests', () => {
     expect(opts.method).toBe('DELETE');
     expect((opts.headers as any)['Content-Type']).toBe('application/json');
     expect(opts.body).toBe(JSON.stringify({}));
+  });
+
+  it('throws API errorMessage when present', async () => {
+    (global.fetch as any).mockImplementation(() =>
+      mockFetchResponse(400, JSON.stringify({ errorMessage: 'Invalid name or password' }), 'Bad Request')
+    );
+    await expect(remoteApiClient.login({ name: 'u', password: 'p' })).rejects.toThrow(
+      'Invalid name or password'
+    );
+  });
+
+  it('throws message field when present', async () => {
+    (global.fetch as any).mockImplementation(() =>
+      mockFetchResponse(400, JSON.stringify({ message: 'Some message' }), 'Bad Request')
+    );
+    await expect(remoteApiClient.login({ name: 'u', password: 'p' })).rejects.toThrow('Some message');
+  });
+
+  it('falls back to statusText if no message fields', async () => {
+    (global.fetch as any).mockImplementation(() => mockFetchResponse(500, '', 'Server Error'));
+    await expect(remoteApiClient.login({ name: 'u', password: 'p' })).rejects.toThrow('Server Error');
   });
 });
