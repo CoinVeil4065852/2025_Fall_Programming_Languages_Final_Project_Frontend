@@ -12,7 +12,8 @@ describe('aggregateByWeekday', () => {
     const arr = aggregateByWeekday(
       items,
       (it) => it.date,
-      (it) => it.v
+      (it) => it.v,
+      new Date('2025-12-10') // use a date within the Mon..Sun week to make test deterministic
     );
     // Expect length 7 and values at correct offsets (Mon=0..Sun=6)
     expect(arr).toHaveLength(7);
@@ -20,6 +21,20 @@ describe('aggregateByWeekday', () => {
     expect(arr[1]).toBe(2); // Tuesday
     expect(arr[2]).toBe(3); // Wednesday
     expect(arr[6]).toBe(4); // Sunday
+  });
+
+  it('ignores dates outside the reference week', () => {
+    const items = [
+      { date: '2025-12-08T10:00:00', v: 1 }, // in-week
+      { date: '2025-11-30T10:00:00', v: 99 }, // previous week
+    ];
+    const arr = aggregateByWeekday(
+      items,
+      (it) => it.date,
+      (it) => it.v,
+      new Date('2025-12-10')
+    );
+    expect(arr.reduce((s, v) => s + v, 0)).toBe(1);
   });
 });
 
