@@ -14,7 +14,7 @@ Health Tracker Dashboard is a demo front-end app for monitoring activity, sleep,
 
 ### Server
 
-[Health Backend](https://github.com/viviennnne/health_backend) is the official backend for this project. Go to the page to see more.
+[2025_Fall_Programming_Languages_Final_Project_Backend](https://github.com/viviennnne/2025_Fall_Programming_Languages_Final_Project_Backend) is the official backend for this project. Go to the page to see more.
 
 ### Configuration
 
