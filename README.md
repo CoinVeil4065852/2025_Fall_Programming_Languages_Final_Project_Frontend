@@ -6,6 +6,7 @@ Health Tracker Dashboard is a demo front-end app for monitoring activity, sleep,
 
 ## Build
 
+- `npm i` to install dependencies 
 - `npm run dev` to start the dev server
 - `npm run build` to build production static files
 
